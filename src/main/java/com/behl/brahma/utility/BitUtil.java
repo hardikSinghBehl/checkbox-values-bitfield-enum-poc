@@ -2,8 +2,8 @@ package com.behl.brahma.utility;
 
 import java.util.Arrays;
 import java.util.EnumSet;
-import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.behl.brahma.constant.Prescription;
 import com.behl.brahma.constant.Symptom;
@@ -31,21 +31,19 @@ public class BitUtil {
     }
 
     public static Integer getSymptomValue(Set<Symptom> symptoms) {
-        List symptomList = List.of(symptoms.toArray());
-        Integer value = 0;
-        for (int i = 0; i < symptomList.size(); i++) {
-            value += ((Symptom) symptomList.get(i)).getBitFlagValue();
-        }
-        return value;
+        final var value = new AtomicInteger(0);
+        symptoms.forEach(symptom -> {
+            value.addAndGet(symptom.getBitFlagValue());
+        });
+        return value.get();
     }
 
     public static Integer getPrescriptionValue(Set<Prescription> prescriptions) {
-        List prescriptionList = List.of(prescriptions.toArray());
-        Integer value = 0;
-        for (int i = 0; i < prescriptionList.size(); i++) {
-            value += ((Prescription) prescriptionList.get(i)).getBitFlagValue();
-        }
-        return value;
+        final var value = new AtomicInteger(0);
+        prescriptions.forEach(prescription -> {
+            value.addAndGet(prescription.getBitFlagValue());
+        });
+        return value.get();
     }
 
 }
