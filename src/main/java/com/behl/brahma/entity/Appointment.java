@@ -14,6 +14,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.ToString.Exclude;
 
 @Entity
 @Table(name = "appointments")
@@ -33,11 +34,9 @@ public class Appointment implements Serializable {
     @Column(nullable = false)
     private Integer prescription;
 
-    @Column(name = "patient_id", nullable = false, insertable = false, updatable = false)
-    private UUID patientId;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "patient_id", nullable = false)
+    @Exclude
+    @ManyToOne
+    @JoinColumn(name = "patient_id")
     private Patient patient;
 
     @PrePersist

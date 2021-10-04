@@ -1,5 +1,6 @@
 package com.behl.brahma.repository;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,5 +10,7 @@ import com.behl.brahma.entity.Appointment;
 
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, UUID> {
+
+    List<Appointment> findByPatientId(final UUID patientId);
 
 }
