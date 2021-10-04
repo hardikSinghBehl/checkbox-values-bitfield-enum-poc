@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -30,6 +32,13 @@ public class Appointment implements Serializable {
 
     @Column(nullable = false)
     private Integer prescription;
+
+    @Column(name = "patient_id", nullable = false, insertable = false, updatable = false)
+    private UUID patientId;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "patient_id", nullable = false)
+    private Patient patient;
 
     @PrePersist
     void onCreate() {
