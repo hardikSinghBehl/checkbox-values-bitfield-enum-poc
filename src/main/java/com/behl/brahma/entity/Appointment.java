@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -29,5 +30,10 @@ public class Appointment implements Serializable {
 
     @Column(nullable = false)
     private Integer prescription;
+
+    @PrePersist
+    void onCreate() {
+        this.id = UUID.randomUUID();
+    }
 
 }
