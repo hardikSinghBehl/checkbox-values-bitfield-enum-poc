@@ -169,6 +169,11 @@ INSERT INTO users (status) VALUES (5);
 
 <img width="260" alt="Screenshot 2021-10-05 at 12 06 22 AM" src="https://user-images.githubusercontent.com/69693621/135905756-809a540b-d36e-460c-b05e-314529f815ea.png">
 
+### Readability of the columns is preserved since MySQL converts the values before displaying
+
+https://user-images.githubusercontent.com/69693621/135990292-1df5bcbe-6752-4726-bc6c-228dab4fce1b.mov
+
+
 * The above mentioned approach can be used by defining the column in DB as SET type (by defining the same element(s) from the java enum class) 
 * Using SET, maximum of 64 distinct elements can be configured (64 checkboxes!! 😅)
 * If want to store more than 64 elements (likely won't happen), int datatype will fit the need since the maximum value that can be stored in an int dataype in MySQL is `2147483647`
