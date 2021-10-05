@@ -1,5 +1,5 @@
 ### Adding values of all checkboxes displayed on an UI component, in a single column of a table instead of creating a seperate table and mapping each checkbox as a column
-#### Bitfield and Enums will be used to achieve the above mentioned goal
+#### `Bitfield` and `Enums` will be used to achieve the above mentioned goal
 #### Tech Stack considered
 * Java (Spring-boot)
 * Typescript
@@ -29,6 +29,8 @@ The values of all the checkboxes that the user has checked will be added and sto
 * 9: Fever and Cold
 
 and so on.
+* This approach will always produce a unique combination of enum(s) from a numeric value, it is imposible for a numeric value to refer to more than 1 combination
+* Only 1 `If statement` is required to know if an enum(checkbox) value is present inside of a numeric value (code snippet provided below or refer this [Class](https://github.com/hardikSinghBehl/checkbox-values-bitfield-enum-poc/blob/main/src/main/java/com/behl/brahma/utility/BitUtil.java))
 
 ---
 ## Sample Screen Recording (1 minute long)
@@ -169,12 +171,12 @@ INSERT INTO users (status) VALUES (5);
 
 <img width="260" alt="Screenshot 2021-10-05 at 12 06 22 AM" src="https://user-images.githubusercontent.com/69693621/135905756-809a540b-d36e-460c-b05e-314529f815ea.png">
 
-### Readability of the columns is preserved since MySQL converts the values before displaying
+#### Readability of the columns is preserved since MySQL converts the values before displaying automatically
 
 https://user-images.githubusercontent.com/69693621/135990292-1df5bcbe-6752-4726-bc6c-228dab4fce1b.mov
 
-
 * The above mentioned approach can be used by defining the column in DB as SET type (by defining the same element(s) from the java enum class) 
+* More database readability is achieved compared to previous approach, consider a checkbox `Transient ischaemic attack`, we can declare it inside the created Java Enum/MySQL SET and it will be diplayed automatically if selected, by MySQL when a read query is performed. better compared to storing a boolean value inside the column `expereinced_transient_ischaemic_attack` or `experieced_tia` (often the latter name is employed by devs to make the column name short which in turn leads to it being more unreadable)
 * Using SET, maximum of 64 distinct elements can be configured (64 checkboxes!! 😅)
 * If want to store more than 64 elements (likely won't happen), int datatype will fit the need since the maximum value that can be stored in an int dataype in MySQL is `2147483647`
 * Sets can be used to store multiple `checkbox` values, similarly MySQL Enums can be used to handle various `radiobuttons` associated with a question (single value)
