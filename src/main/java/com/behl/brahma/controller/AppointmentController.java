@@ -1,9 +1,11 @@
 package com.behl.brahma.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,7 +31,7 @@ public class AppointmentController {
     private final AppointmentRepository appointmentRepository;
     private final PatientRepository patientRepository;
 
-    @PostMapping(value = "/appointment")
+    @PostMapping(value = "/appointment", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> appointmentCreationHandler(
             @RequestBody(required = true) final AppointmentCreationRequestDto appointmentCreationRequestDto) {
         final var appointment = new Appointment();
@@ -39,7 +41,12 @@ public class AppointmentController {
         appointment.setPrescription(BitUtil.getPrescriptionValue(appointmentCreationRequestDto.getPrescriptions()));
         final var savedAppointment = appointmentRepository.save(appointment);
         log.info("Appointment created: {}", savedAppointment);
-        return ResponseEntity.ok().build();
+
+        final var response = new HashMap<String, String>();
+        response.put("message",
+                "Appointment created successfully, 'savedObject' contains the .toString() of the stored object");
+        response.put("savedObject", savedAppointment.toString());
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping(value = "/appointments/{patientId}")
