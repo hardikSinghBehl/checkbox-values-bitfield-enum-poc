@@ -182,6 +182,23 @@ https://user-images.githubusercontent.com/69693621/135990292-1df5bcbe-6752-4726-
 * Sets can be used to store multiple `checkbox` values, similarly MySQL Enums can be used to handle various `radiobuttons` associated with a question (single value)
 
 --- 
+### Native SQL
+
+* Query to find out all the patients who have selected `cough` in symptoms
+  * **Using previous approach**
+  ```
+  SELECT pa.patient_id FROM patients AS pa LEFT JOIN appointments AS app 
+  ON pa.patient_id = app.patient_id LEFT JOIN symptoms AS symp ON app.appointment_id 
+  = symp.appointment_id WHERE symp.has_cough = 1;
+  ```
+  * **Using the current approach** (any of the below given 2 can be used, the latter would be recommended since we would have the ordinal of ENUM type to search in Java/Server application)
+  ```
+  SELECT * FROM appointments WHERE FIND_IN_SET('COUGH',symptoms)>0;
+  ```
+  ```
+  SELECT * FROM appointments WHERE symptoms & 2 = 2;
+  ```
+---
 ## Implementation on frontend
 #### Tech stack considered: Angular and Typescript
 
